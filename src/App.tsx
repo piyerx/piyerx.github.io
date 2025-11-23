@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import LandingPage from './components/LandingPage';
+import DeveloperPage from './components/DeveloperPage';
+import EditorPage from './components/EditorPage';
+import Grain from './components/Grain';
+import type { View } from './types';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [view, setView] = useState<View>('landing');
+  const [isExiting, setIsExiting] = useState<boolean>(false);
+  const [exitingView, setExitingView] = useState<View | null>(null);
+
+  const navigateTo = (newView: View) => {
+    if (newView === view) return;
+    
+    setIsExiting(true);
+    setExitingView(view);
+
+    setTimeout(() => {
+      setView(newView);
+      setIsExiting(false);
+      setExitingView(null);
+    }, 700); // Match animation duration
+  };
+
+  const renderView = (currentView: View) => {
+    const isVisible = view === currentView && !isExiting;
+    const isFadingOut = exitingView === currentView;
+    
+    let animationClass = '';
+    if (isVisible) {
+      animationClass = 'animate-fade-in';
+    } else if (isFadingOut) {
+      animationClass = 'animate-fade-out';
+    } else {
+      animationClass = 'hidden';
+    }
+
+    return (
+      <div className={`absolute inset-0 w-full h-full ${animationClass}`}>
+        {currentView === 'landing' && <LandingPage setView={navigateTo} />}
+        {currentView === 'developer' && <DeveloperPage setView={navigateTo} />}
+        {currentView === 'editor' && <EditorPage setView={navigateTo} />}
+      </div>
+    );
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <main className="bg-gradient-to-r from-gray-800 via-black to-black bg-[length:200%_200%] animate-background-pan text-gray-200 font-sans min-h-screen w-full relative">
+      <Grain />
+      <div className="relative w-full h-screen">
+        {renderView('landing')}
+        {renderView('developer')}
+        {renderView('editor')}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </main>
+  );
+};
 
-export default App
+export default App;
