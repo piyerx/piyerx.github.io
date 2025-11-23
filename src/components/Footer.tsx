@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="w-full mt-24 py-12 text-center border-t border-gray-800">
       <div className="max-w-5xl mx-auto">
-        <p className="font-mono text-lg text-gray-300">Piyush Verma</p>
+        <p className="font-mono text-lg text-gray-300">Piyush Verma <b>PiyerX</b> | 2025</p>
         <div className="flex justify-center items-center gap-6 mt-4">
           <a
             href="https://linkedin.com/in/piyerx"

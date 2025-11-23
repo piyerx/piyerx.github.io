@@ -20,7 +20,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ setView }) => {
 
       <div style={{ animationDelay: '300ms' }} className="opacity-0 animate-fade-in-up">
         <p className="text-gray-500 text-lg md:text-xl mt-3 tracking-[0.3em]">
-          CRAFTING EXPERIENCES IN CODE & PIXELS
+          CRAFTING EXPERIENCES IN <b>CODE</b> & <b>PIXELS</b>
         </p>
       </div>
 
